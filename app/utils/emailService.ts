@@ -1,4 +1,5 @@
 import sgMail from '@sendgrid/mail';
+import { StudentFormData } from '../types/student';
 
 // Initialize SendGrid with API key
 // In production, this should be set as an environment variable
@@ -34,7 +35,7 @@ export async function sendEmail(emailData: EmailData): Promise<boolean> {
  * @param studentData The student data to include in the notification
  * @returns A promise that resolves when the email is sent
  */
-export async function sendRegistrationNotification(studentData: any): Promise<boolean> {
+export async function sendRegistrationNotification(studentData: StudentFormData): Promise<boolean> {
   const adminEmail = process.env.ADMIN_EMAIL || 'admin@pteintensive.com';
   const fromEmail = process.env.FROM_EMAIL || 'admin@pteintensive.com';
   
