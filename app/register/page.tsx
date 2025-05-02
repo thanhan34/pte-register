@@ -28,10 +28,11 @@ export default function Register() {
       try {
         await addDoc(collection(db, 'students'), studentData);
         console.log('Document successfully added to Firestore');
-      } catch (firestoreError: any) {
-        console.error('Detailed Firestore error:', firestoreError);
-        console.error('Firestore error code:', firestoreError.code);
-        console.error('Firestore error message:', firestoreError.message);
+      } catch (firestoreError) {
+        const error = firestoreError as { code?: string; message?: string };
+        console.error('Detailed Firestore error:', error);
+        console.error('Firestore error code:', error.code);
+        console.error('Firestore error message:', error.message);
         throw firestoreError; // Re-throw to be caught by the outer catch
       }
       
@@ -65,14 +66,15 @@ export default function Register() {
       
       setSubmitted(true);
       setError(null);
-    } catch (err: any) {
+    } catch (err) {
       console.error('Error adding student:', err);
       // Provide more detailed error message
       let errorMessage = 'Đăng ký không thành công. Vui lòng thử lại sau.';
       
-      if (err.code) {
+      const error = err as { code?: string; message?: string };
+      if (error.code) {
         // If it's a Firebase error with a code
-        errorMessage += ` (Mã lỗi: ${err.code})`;
+        errorMessage += ` (Mã lỗi: ${error.code})`;
       }
       
       setError(errorMessage);

@@ -25,11 +25,12 @@ export default function TestFirebase() {
       addTestResult('Read Test', `Successfully read ${count} documents from 'students' collection`, true);
       setStatus('Read test completed successfully');
       setError(null);
-    } catch (err: any) {
+    } catch (err) {
+      const error = err as { message?: string };
       console.error('Read test error:', err);
-      addTestResult('Read Test', `Failed: ${err.message}`, false);
+      addTestResult('Read Test', `Failed: ${error.message || 'Unknown error'}`, false);
       setStatus('Read test failed');
-      setError(JSON.stringify(err, Object.getOwnPropertyNames(err), 2));
+      setError(JSON.stringify(err, Object.getOwnPropertyNames(err as object), 2));
     }
   };
 
@@ -50,11 +51,12 @@ export default function TestFirebase() {
       addTestResult('Write Test', `Successfully wrote document with ID: ${docRef.id}`, true);
       setStatus('Write test completed successfully');
       setError(null);
-    } catch (err: any) {
+    } catch (err) {
+      const error = err as { message?: string };
       console.error('Write test error:', err);
-      addTestResult('Write Test', `Failed: ${err.message}`, false);
+      addTestResult('Write Test', `Failed: ${error.message || 'Unknown error'}`, false);
       setStatus('Write test failed');
-      setError(JSON.stringify(err, Object.getOwnPropertyNames(err), 2));
+      setError(JSON.stringify(err, Object.getOwnPropertyNames(err as object), 2));
     }
   };
 
