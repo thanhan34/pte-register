@@ -13,16 +13,31 @@ export default function Register() {
 
   const handleSubmit = async (formData: StudentFormData) => {
     try {
+      console.log('Starting registration process...');
+      console.log('Current origin:', typeof window !== 'undefined' ? window.location.origin : 'SSR');
+      
       // Add isPublicSubmission flag to identify submissions from public form
-      await addDoc(collection(db, 'students'), {
+      const studentData = {
         ...formData,
         isPublicSubmission: true,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
-      });
+      };
+      
+      console.log('Attempting to add document to Firestore...');
+      try {
+        await addDoc(collection(db, 'students'), studentData);
+        console.log('Document successfully added to Firestore');
+      } catch (firestoreError: any) {
+        console.error('Detailed Firestore error:', firestoreError);
+        console.error('Firestore error code:', firestoreError.code);
+        console.error('Firestore error message:', firestoreError.message);
+        throw firestoreError; // Re-throw to be caught by the outer catch
+      }
       
       // Gửi email thông báo cho admin thông qua API route
       try {
+        console.log('Sending email notification...');
         const response = await fetch('/api/registration-notification', {
           method: 'POST',
           headers: {
@@ -50,9 +65,17 @@ export default function Register() {
       
       setSubmitted(true);
       setError(null);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error adding student:', err);
-      setError('Đăng ký không thành công. Vui lòng thử lại sau.');
+      // Provide more detailed error message
+      let errorMessage = 'Đăng ký không thành công. Vui lòng thử lại sau.';
+      
+      if (err.code) {
+        // If it's a Firebase error with a code
+        errorMessage += ` (Mã lỗi: ${err.code})`;
+      }
+      
+      setError(errorMessage);
     }
   };
 
