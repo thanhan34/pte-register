@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { StudentFormData } from '../types/student';
+import LocationSelector from './LocationSelector';
 
 interface PublicStudentFormProps {
   onSubmit: (formData: StudentFormData) => Promise<void>;
@@ -16,7 +17,7 @@ export default function PublicStudentForm({ onSubmit }: PublicStudentFormProps) 
     dob: currentDate,
     referrer: '',
     province: '',
-    country: 'Vietnam',
+    country: '',
     targetScore: 30,
     startDate: currentDate,
     studyDuration: 1,
@@ -94,27 +95,16 @@ export default function PublicStudentForm({ onSubmit }: PublicStudentFormProps) 
         />
       </div>
 
-      <div>
-        <label className="block text-base font-medium text-gray-700">Tỉnh/Thành phố</label>
-        <input
-          type="text"
-          value={formData.province}
-          onChange={(e) => setFormData({...formData, province: e.target.value})}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#fc5d01] focus:ring-[#fc5d01] text-base"
-          required
-        />
-      </div>
-
-      <div>
-        <label className="block text-base font-medium text-gray-700">Quốc gia</label>
-        <input
-          type="text"
-          value={formData.country}
-          onChange={(e) => setFormData({...formData, country: e.target.value})}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#fc5d01] focus:ring-[#fc5d01] text-base"
-          required
-        />
-      </div>
+      <LocationSelector
+        country={formData.country}
+        province={formData.province}
+        onCountryChange={(country) => {
+          setFormData(prev => ({...prev, country}));
+        }}
+        onProvinceChange={(province) => {
+          setFormData(prev => ({...prev, province}));
+        }}
+      />
 
       <div>
         <label className="block text-base font-medium text-gray-700">Điểm mục tiêu</label>
