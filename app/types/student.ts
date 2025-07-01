@@ -2,6 +2,7 @@ export interface Student {
   id: string;
   name: string;
   phone: string;
+  socialContact?: string; // Zalo or Facebook contact name
   dob: string; // date of birth
   referrer: string;
   province: string; // Province/City

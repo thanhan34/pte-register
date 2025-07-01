@@ -14,6 +14,7 @@ export default function PublicStudentForm({ onSubmit }: PublicStudentFormProps) 
   const [formData, setFormData] = useState<StudentFormData>({
     name: '',
     phone: '',
+    socialContact: '',
     dob: currentDate,
     referrer: '',
     province: '',
@@ -24,13 +25,31 @@ export default function PublicStudentForm({ onSubmit }: PublicStudentFormProps) 
     tuitionPaymentDates: [currentDate], // Default to current date
     tuitionPaymentStatus: 'pending',
     trainerName: '',
-    tuitionFee: 6500000,
+    tuitionFee: 0,
     notes: '',
     type: 'class', // Default to class
     isProcess: false
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Format number to Vietnamese currency format
+  const formatVND = (value: number): string => {
+    return value.toLocaleString('vi-VN');
+  };
+
+  // Parse Vietnamese formatted number back to number
+  const parseVND = (value: string): number => {
+    return parseInt(value.replace(/\./g, '')) || 0;
+  };
+
+  const handleTuitionFeeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+    // Remove all non-digit characters
+    const numericValue = inputValue.replace(/\D/g, '');
+    const parsedValue = parseInt(numericValue) || 0;
+    setFormData({...formData, tuitionFee: parsedValue});
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,6 +90,16 @@ export default function PublicStudentForm({ onSubmit }: PublicStudentFormProps) 
           onChange={(e) => setFormData({...formData, phone: e.target.value})}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#fc5d01] focus:ring-[#fc5d01] text-base"
           required
+        />
+      </div>
+
+      <div>
+        <label className="block text-base font-medium text-gray-700">Tên Zalo hoặc Facebook liên hệ (Không bắt buộc)</label>
+        <input
+          type="text"
+          value={formData.socialContact}
+          onChange={(e) => setFormData({...formData, socialContact: e.target.value})}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#fc5d01] focus:ring-[#fc5d01] text-base"
         />
       </div>
 
@@ -129,12 +158,12 @@ export default function PublicStudentForm({ onSubmit }: PublicStudentFormProps) 
       <div>
         <label className="block text-base font-medium text-gray-700">Học phí (VND)</label>
         <input
-          type="number"
-          value={formData.tuitionFee}
-          onChange={(e) => setFormData({...formData, tuitionFee: Number(e.target.value)})}
+          type="text"
+          value={formatVND(formData.tuitionFee)}
+          onChange={handleTuitionFeeChange}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#fc5d01] focus:ring-[#fc5d01] text-base"
           required
-          min="0"
+          placeholder="Ví dụ: 6.500.000"
         />
       </div>
 
