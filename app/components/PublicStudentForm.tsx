@@ -38,11 +38,6 @@ export default function PublicStudentForm({ onSubmit }: PublicStudentFormProps) 
     return value.toLocaleString('vi-VN');
   };
 
-  // Parse Vietnamese formatted number back to number
-  const parseVND = (value: string): number => {
-    return parseInt(value.replace(/\./g, '')) || 0;
-  };
-
   const handleTuitionFeeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     // Remove all non-digit characters
