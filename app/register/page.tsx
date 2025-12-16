@@ -36,9 +36,9 @@ export default function Register() {
         throw firestoreError; // Re-throw to be caught by the outer catch
       }
       
-      // Gửi email thông báo cho admin thông qua API route
+      // Gửi thông báo đến Discord webhook thông qua API route
       try {
-        console.log('Sending email notification...');
+        console.log('Sending Discord notification...');
         const response = await fetch('/api/registration-notification', {
           method: 'POST',
           headers: {
@@ -55,13 +55,13 @@ export default function Register() {
         });
         
         if (response.ok) {
-          console.log('Đã gửi email thông báo đăng ký thành công');
+          console.log('Đã gửi thông báo Discord đăng ký thành công');
         } else {
-          console.error('Lỗi khi gửi email thông báo:', await response.text());
+          console.error('Lỗi khi gửi thông báo Discord:', await response.text());
         }
-      } catch (emailError) {
+      } catch (notificationError) {
         // Ghi log lỗi nhưng không ảnh hưởng đến trải nghiệm người dùng
-        console.error('Lỗi khi gửi email thông báo:', emailError);
+        console.error('Lỗi khi gửi thông báo Discord:', notificationError);
       }
       
       setSubmitted(true);
