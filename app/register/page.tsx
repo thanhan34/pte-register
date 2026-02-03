@@ -48,9 +48,11 @@ export default function Register() {
             name: formData.name,
             phone: formData.phone,
             dob: formData.dob,
+            residentialAddress: formData.residentialAddress,
             province: formData.province,
             targetScore: formData.targetScore,
-            tuitionFee: formData.tuitionFee
+            tuitionFee: formData.tuitionFee,
+            currency: formData.currency
           }),
         });
         

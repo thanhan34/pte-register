@@ -6,9 +6,13 @@ export async function POST(request: Request) {
   try {
     const data = await request.json();
     
-    // Format tuition fee to Vietnamese currency
-    const formatVND = (value: number): string => {
-      return value.toLocaleString('vi-VN') + ' VNĐ';
+    // Format tuition fee based on currency
+    const formatCurrency = (value: number, currency: 'VND' | 'AUD'): string => {
+      if (currency === 'VND') {
+        return value.toLocaleString('vi-VN') + ' VNĐ';
+      } else {
+        return '$' + value.toLocaleString('en-AU') + ' AUD';
+      }
     };
     
     // Create Discord embed message
@@ -33,6 +37,11 @@ export async function POST(request: Request) {
             inline: true
           },
           {
+            name: '🏠 Địa chỉ cư trú',
+            value: data.residentialAddress || 'N/A',
+            inline: false
+          },
+          {
             name: '📍 Tỉnh/Thành phố',
             value: data.province || 'N/A',
             inline: true
@@ -44,7 +53,7 @@ export async function POST(request: Request) {
           },
           {
             name: '💰 Học phí',
-            value: data.tuitionFee ? formatVND(data.tuitionFee) : 'N/A',
+            value: data.tuitionFee ? formatCurrency(data.tuitionFee, data.currency || 'VND') : 'N/A',
             inline: true
           }
         ],

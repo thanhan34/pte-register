@@ -17,6 +17,7 @@ export default function PublicStudentForm({ onSubmit }: PublicStudentFormProps) 
     socialContact: '',
     dob: currentDate,
     referrer: '',
+    residentialAddress: '',
     province: '',
     country: '',
     targetScore: 30,
@@ -26,6 +27,7 @@ export default function PublicStudentForm({ onSubmit }: PublicStudentFormProps) 
     tuitionPaymentStatus: 'pending',
     trainerName: '',
     tuitionFee: 0,
+    currency: 'VND', // Default to VND
     notes: '',
     type: 'class', // Default to class
     isProcess: false
@@ -33,9 +35,13 @@ export default function PublicStudentForm({ onSubmit }: PublicStudentFormProps) 
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Format number to Vietnamese currency format
-  const formatVND = (value: number): string => {
-    return value.toLocaleString('vi-VN');
+  // Format number based on currency
+  const formatCurrency = (value: number, currency: 'VND' | 'AUD'): string => {
+    if (currency === 'VND') {
+      return value.toLocaleString('vi-VN');
+    } else {
+      return value.toLocaleString('en-AU');
+    }
   };
 
   const handleTuitionFeeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -119,6 +125,18 @@ export default function PublicStudentForm({ onSubmit }: PublicStudentFormProps) 
         />
       </div>
 
+      <div>
+        <label className="block text-base font-medium text-gray-700">Địa chỉ cư trú</label>
+        <input
+          type="text"
+          value={formData.residentialAddress}
+          onChange={(e) => setFormData({ ...formData, residentialAddress: e.target.value })}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#fc5d01] focus:ring-[#fc5d01] text-base"
+          placeholder="Ví dụ: 123 Nguyễn Trãi, P.5, Q.5"
+          required
+        />
+      </div>
+
       <LocationSelector
         country={formData.country}
         province={formData.province}
@@ -151,15 +169,33 @@ export default function PublicStudentForm({ onSubmit }: PublicStudentFormProps) 
       </div>
 
       <div>
-        <label className="block text-base font-medium text-gray-700">Học phí (VND)</label>
+        <label className="block text-base font-medium text-gray-700">Loại tiền tệ</label>
+        <select
+          value={formData.currency}
+          onChange={(e) => setFormData({ ...formData, currency: e.target.value as 'VND' | 'AUD' })}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#fc5d01] focus:ring-[#fc5d01] text-base"
+          required
+        >
+          <option value="VND">Việt Nam Đồng (VND)</option>
+          <option value="AUD">Đô-la Úc (AUD)</option>
+        </select>
+      </div>
+
+      <div>
+        <label className="block text-base font-medium text-gray-700">
+          Học phí ({formData.currency})
+        </label>
         <input
           type="text"
-          value={formatVND(formData.tuitionFee)}
+          value={formatCurrency(formData.tuitionFee, formData.currency)}
           onChange={handleTuitionFeeChange}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#fc5d01] focus:ring-[#fc5d01] text-base"
           required
-          placeholder="Ví dụ: 6.500.000"
+          placeholder={formData.currency === 'VND' ? 'Ví dụ: 6.500.000' : 'Ví dụ: 500'}
         />
+        <p className="mt-1 text-sm text-gray-500">
+          {formData.currency === 'VND' ? 'Nhập học phí bằng Việt Nam Đồng' : 'Nhập học phí bằng Đô-la Úc'}
+        </p>
       </div>
 
       <div className="pt-4">

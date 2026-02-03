@@ -5,6 +5,7 @@ export interface Student {
   socialContact?: string; // Zalo or Facebook contact name
   dob: string; // date of birth
   referrer: string;
+  residentialAddress: string; // Residential address
   province: string; // Province/City
   country: string; // Country
   targetScore: number;
@@ -14,6 +15,7 @@ export interface Student {
   tuitionPaymentStatus: 'paid' | 'pending' | 'overdue';
   trainerName: string;
   tuitionFee: number;
+  currency: 'VND' | 'AUD'; // Currency for tuition fee
   notes: string;
   type: 'one-on-one' | 'class' | '2345';
   isProcess?: boolean; // Optional for backward compatibility, defaults to false for new 1-1 students
