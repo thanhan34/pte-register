@@ -126,7 +126,9 @@ export default function PublicStudentForm({ onSubmit }: PublicStudentFormProps) 
       </div>
 
       <div>
-        <label className="block text-base font-medium text-gray-700">Địa chỉ cư trú</label>
+        <label className="block text-base font-medium text-gray-700">
+          Địa chỉ cư trú <span className="text-[#fc5d01]">*</span>
+        </label>
         <input
           type="text"
           value={formData.residentialAddress}
