@@ -47,6 +47,7 @@ export default function Register() {
           body: JSON.stringify({
             name: formData.name,
             phone: formData.phone,
+            cccd: formData.cccd,
             dob: formData.dob,
             residentialAddress: formData.residentialAddress,
             province: formData.province,

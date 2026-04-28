@@ -32,6 +32,11 @@ export async function POST(request: Request) {
             inline: true
           },
           {
+            name: '🪪 CCCD',
+            value: data.cccd || 'N/A',
+            inline: true
+          },
+          {
             name: '🎂 Ngày sinh',
             value: data.dob || 'N/A',
             inline: true

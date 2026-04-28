@@ -48,6 +48,7 @@ export async function sendRegistrationNotification(studentData: StudentFormData)
       
       Name: ${studentData.name}
       Phone: ${studentData.phone}
+      CCCD: ${studentData.cccd}
       Date of Birth: ${studentData.dob}
       Province: ${studentData.province}
       Target Score: ${studentData.targetScore}
@@ -59,6 +60,7 @@ export async function sendRegistrationNotification(studentData: StudentFormData)
       <ul>
         <li><strong>Name:</strong> ${studentData.name}</li>
         <li><strong>Phone:</strong> ${studentData.phone}</li>
+        <li><strong>CCCD:</strong> ${studentData.cccd}</li>
         <li><strong>Date of Birth:</strong> ${studentData.dob}</li>
         <li><strong>Province:</strong> ${studentData.province}</li>
         <li><strong>Target Score:</strong> ${studentData.targetScore}</li>

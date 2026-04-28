@@ -14,6 +14,7 @@ export default function PublicStudentForm({ onSubmit }: PublicStudentFormProps) 
   const [formData, setFormData] = useState<StudentFormData>({
     name: '',
     phone: '',
+    cccd: '',
     socialContact: '',
     dob: currentDate,
     referrer: '',
@@ -92,6 +93,24 @@ export default function PublicStudentForm({ onSubmit }: PublicStudentFormProps) 
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#fc5d01] focus:ring-[#fc5d01] text-base"
           required
         />
+      </div>
+
+      <div>
+        <label className="block text-base font-medium text-gray-700">
+          CCCD <span className="text-[#fc5d01]">*</span>
+        </label>
+        <input
+          type="text"
+          inputMode="numeric"
+          value={formData.cccd}
+          onChange={(e) => setFormData({ ...formData, cccd: e.target.value.replace(/\D/g, '').slice(0, 12) })}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#fc5d01] focus:ring-[#fc5d01] text-base"
+          placeholder="Nhập số căn cước công dân để xuất hóa đơn"
+          pattern="\d{12}"
+          title="CCCD phải gồm 12 chữ số"
+          required
+        />
+        <p className="mt-1 text-sm text-gray-500">Thông tin này dùng để xuất hóa đơn.</p>
       </div>
 
       <div>

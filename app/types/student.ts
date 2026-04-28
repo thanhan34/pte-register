@@ -2,6 +2,7 @@ export interface Student {
   id: string;
   name: string;
   phone: string;
+  cccd: string; // Citizen identification number for invoice issuance
   socialContact?: string; // Zalo or Facebook contact name
   dob: string; // date of birth
   referrer: string;
